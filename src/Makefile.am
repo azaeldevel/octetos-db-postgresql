@@ -1,24 +1,21 @@
-## Process this file with automake to produce Makefile.in
-
-## Created by Anjuta
-
-AM_CPPFLAGS = \
-	-DPACKAGE_LOCALE_DIR=\""$(localedir)"\" \
-	-DPACKAGE_SRC_DIR=\""$(srcdir)"\" \
-	-DPACKAGE_DATA_DIR=\""$(pkgdatadir)"\" \
-	$(OCTETOS_DB_POSTGRESQL_CFLAGS)
-
-AM_CFLAGS =\
-	 -Wall\
-	 -g
-
-bin_PROGRAMS = octetos_db_postgresql
-
-octetos_db_postgresql_SOURCES = \
-	main.cc
-
-octetos_db_postgresql_LDFLAGS = 
-
-octetos_db_postgresql_LDADD = $(OCTETOS_DB_POSTGRESQL_LIBS)
+AUTOMAKE_OPTIONS=foreign 1.4
 
 
+lib_LTLIBRARIES = liboctetos-db-postgresql.la
+
+
+if WITH_ARCHLINUX
+DEFINESO = -DARCHLINUX
+endif
+
+
+
+liboctetos_db_postgresql_la_CXXFLAGS = $(OCTETOS_DB_ABSTRACT_CFLAGS) $(LIBPQ_CFLAGS) $(DEFINESO)
+liboctetos_db_postgresql_la_LIBADD = $(OCTETOS_DB_ABSTRACT_LIBS) $(LIBPQ_CFLAGS)
+liboctetos_db_postgresql_la_SOURCES = clientdb-postgresql.cc
+
+octetos_db_includedir = $(includedir)/octetos/db
+pkgconfigdir = $(libdir)/pkgconfig
+octetos_db_include_HEADERS = clientdb-postgresql.hh
+pkgconfig_DATA = octetos-db-postgresql.pc
+EXTRA_DIST = octetos-db-postgresql.pc.in

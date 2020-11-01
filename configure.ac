@@ -1,6 +1,6 @@
 
 
-AC_INIT(octetos-db-postgresql, 0.1.0-alpha)
+AC_INIT(octetos-db-postgresql, 1.4.0-alpha, azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -26,8 +26,16 @@ PKG_CHECK_MODULES(LIBPQ,libpq)
 
 
 
+AC_ARG_WITH([archlinux], AS_HELP_STRING([--with-archlinux], [Activating compilation for archlinux.]))
+if test "x$with_archlinux" = "xyes"; then
+   AM_CONDITIONAL(WITH_ARCHLINUX, test x"$with_archlinux" = "xyes")
+fi
+
+
+
+
 AC_OUTPUT([
 Makefile
 src/Makefile
-
+src/octetos-db-postgresql.pc
 ])
