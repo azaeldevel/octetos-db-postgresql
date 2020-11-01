@@ -6,8 +6,8 @@ datadir=@datadir@
 includedir=@prefix@/include
 
 Name: octetos-db
-Description: C++ library for Database Access, PostgreSQL component.
+Description: API to access database, PostgreSQL component.
 Version: @VERSION@
 Requires: octetos-db-abstract
-Libs: -L${libdir} -loctetos-db-maria
+Libs: -L${libdir} -loctetos-db-postgresql
 Cflags: -I${includedir}

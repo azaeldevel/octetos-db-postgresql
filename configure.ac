@@ -1,6 +1,6 @@
 
 
-AC_INIT(octetos-db-postgresql, 1.4.0-alpha, azael.devel@gmail.com)
+AC_INIT(octetos-db-postgresql, 1.4.1-alpha, azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 
