@@ -1,6 +1,8 @@
 
 #if defined ARCHLINUX
 	#include <libpq-fe.h>
+#elif defined LINUX_GENTOO
+	#include <libpq-fe.h>
 #else
 	#error "Plataforma desconocida"
 #endif

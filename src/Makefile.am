@@ -7,7 +7,9 @@ lib_LTLIBRARIES = liboctetos-db-postgresql.la
 if WITH_ARCHLINUX
 DEFINESO = -DARCHLINUX
 endif
-
+if WITH_GENTOO
+DEFINESO = -DLINUX_GENTOO
+endif
 
 
 liboctetos_db_postgresql_la_CXXFLAGS = $(OCTETOS_DB_ABSTRACT_CFLAGS) $(LIBPQ_CFLAGS) $(DEFINESO)
