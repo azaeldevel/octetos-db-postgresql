@@ -3,6 +3,8 @@
 	#include <libpq-fe.h>
 #elif defined LINUX_GENTOO
 	#include <libpq-fe.h>
+#elif defined LINUX_DEBIAN
+	#include <postgresql/libpq-fe.h>
 #else
 	#error "Plataforma desconocida"
 #endif
