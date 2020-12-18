@@ -72,10 +72,10 @@ namespace postgresql
 		//
 		virtual bool connect(const db::Datconnect& connector);            
 		virtual bool execute(const std::string& str,db::Datresult&);
-		virtual RowNumber insert(const std::string&,db::Datresult&);         
+		virtual bool insert(const std::string&,db::Datresult&);         
 		virtual bool select(const std::string& str,db::Datresult&);
-		virtual RowNumber update(const std::string&,db::Datresult&);
-		virtual RowNumber remove(const std::string&,db::Datresult&);
+		virtual bool update(const std::string&,db::Datresult&);
+		virtual bool remove(const std::string&,db::Datresult&);
 		virtual bool commit();
 		virtual bool begin();
 		virtual bool rollback();

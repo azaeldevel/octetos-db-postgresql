@@ -200,17 +200,17 @@ namespace postgresql
 	{
 		return execute (str,rs);
 	}		
-	RowNumber Connector::update(const std::string& str,db::Datresult& rs)
+	bool Connector::update(const std::string& str,db::Datresult& rs)
 	{		
-		if(!execute (str,rs)) return -1;
+		if(!execute (str,rs)) return false;
 		RowNumber count = PQntuples((PGresult*)rs.getResult());
-		return count;
+		return true;
 	}		
-	RowNumber Connector::remove(const std::string& str,db::Datresult& rs)
+	bool Connector::remove(const std::string& str,db::Datresult& rs)
 	{
-		if(!execute (str,rs)) return -1;
+		if(!execute (str,rs)) return false;
 		RowNumber count = PQntuples((PGresult*)rs.getResult());
-		return count;
+		return true;
 	}		
 	core::Semver Connector::getVerionServer() const
 	{
@@ -258,7 +258,7 @@ namespace postgresql
 			return false;
         }
 
-		RowNumber Connector::insert(const std::string& str,db::Datresult& rs)
+		bool Connector::insert(const std::string& str,db::Datresult& rs)
         {
         	PGresult *res = PQexec((PGconn*)conn, str.c_str()); 
             if (res == NULL)
@@ -275,11 +275,11 @@ namespace postgresql
                 	throw SQLExceptionQuery("No se retorno datos.");        
                 	PQclear(res);
             }
-            int ID = 0;
+            //int ID = 0;
             int countR = PQntuples(res);
             if(countR == 1)
             {
-				ID = std::stoi(PQgetvalue(res, 0, 0));
+				//ID = std::stoi(PQgetvalue(res, 0, 0));
 			}
 			else if(countR > 1)
 			{
@@ -290,7 +290,7 @@ namespace postgresql
 				throw SQLException("la funcion 'lastval()' no retorno resultdo.");
 			}
 			rs = (Result)res;
-            return ID;		
+            return true;		
         }
         bool Connector::connect(const db::Datconnect& conection)
         {
@@ -330,9 +330,7 @@ namespace postgresql
             if (PQstatus((PGconn*)conn) == CONNECTION_BAD) 
             {
                 std::string msg = PQerrorMessage((PGconn*)conn);  
-                SQLException sqlfail(msg); 
-				core::Error::write(sqlfail);
-				return false;
+                throw SQLException(msg); 
             }           
 			datconn = &conection;
             return true;
@@ -345,17 +343,13 @@ namespace postgresql
 		{
 			//std::cout << "Connector::execute : Step 1.1 \n";
 			std::string msg = "Fail on proceses query.";
-			SQLException ex(msg);
-			octetos::core::Error::write(ex);
-			return false;
+			throw SQLException(msg);
 		}
 		if (PQresultStatus(res) != PGRES_TUPLES_OK)
 		{
 			//std::cout << "Connector::execute : Step 2.1 \n";
 			std::string msg = PQerrorMessage((PGconn*)conn);
-			SQLException ex(msg);
-			octetos::core::Error::write(ex);
-			return false;
+			throw SQLException(msg);
 		}
 		
 		//std::cout << "Connector::execute : Step 3 \n";
